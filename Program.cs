@@ -1,14 +1,15 @@
-using ContractMonthlyClaimSystem.Data;  // Add this to include the ApplicationDbContext
-using Microsoft.EntityFrameworkCore;
+using ContractMonthlyClaimSystem.Data;
+using ContractMonthlyClaimSystem.Hubs; // Include the new hub
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-// Register the DbContext with dependency injection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Register SignalR service
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -16,7 +17,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -30,5 +30,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// Map the SignalR hub
+app.MapHub<ClaimHub>("/claimHub");
 
 app.Run();
