@@ -24,6 +24,10 @@ namespace ContractMonthlyClaimSystem.Models
 
         public string AdditionalNotes { get; set; }
 
+        public string UploadedFileName { get; set; }
+        public byte[] UploadedFileContent { get; set; } // Store file content in binary format
+
+
         public string FileName { get; set; }
 
         public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
