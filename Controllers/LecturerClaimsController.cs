@@ -74,27 +74,45 @@ namespace ContractMonthlyClaimSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Approve(int id)
         {
-            var claim = await _context.LecturerClaims.FindAsync(id);
-            if (claim != null)
+            try
             {
-                claim.Status = ClaimStatus.Approved;
-                await _context.SaveChangesAsync();
+                var claim = await _context.LecturerClaims.FindAsync(id);
+                if (claim != null)
+                {
+                    claim.Status = ClaimStatus.Approved;
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error and show friendly message
+                ModelState.AddModelError("", "An error occurred while approving the claim. Please try again.");
             }
             return RedirectToAction(nameof(Review));
         }
 
-        // POST: LecturerClaims/Reject
         [HttpPost]
         public async Task<IActionResult> Reject(int id)
         {
-            var claim = await _context.LecturerClaims.FindAsync(id);
-            if (claim != null)
+            try
             {
-                claim.Status = ClaimStatus.Rejected;
-                await _context.SaveChangesAsync();
+                var claim = await _context.LecturerClaims.FindAsync(id);
+                if (claim != null)
+                {
+                    claim.Status = ClaimStatus.Rejected;
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error and show friendly message
+                ModelState.AddModelError("", "An error occurred while rejecting the claim. Please try again.");
             }
             return RedirectToAction(nameof(Review));
         }
+
+
+
 
     }
 }
