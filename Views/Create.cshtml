@@ -1,6 +1,6 @@
 ﻿@model ContractMonthlyClaimSystem.Models.LecturerClaim
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="LecturerName"></label>
         <input asp-for="LecturerName" class="form-control" />
@@ -16,6 +16,10 @@
     <div class="form-group">
         <label asp-for="AdditionalNotes"></label>
         <textarea asp-for="AdditionalNotes" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Upload Supporting Document</label>
+        <input type="file" name="UploadedFile" class="form-control" />
     </div>
     <button type="submit" class="btn btn-primary">Submit Claim</button>
 </form>
