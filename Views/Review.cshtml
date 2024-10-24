@@ -12,7 +12,7 @@
             <th>Actions</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="claims-table-body">
         @foreach (var claim in Model)
         {
             <tr>
@@ -41,3 +41,23 @@
         }
     </tbody>
 </table>
+
+<!-- Include SignalR JavaScript library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
+<script type="text/javascript">
+    // Connect to SignalR hub
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/claimHub")
+        .build();
+
+    // Handle real-time updates
+    connection.on("ReceiveStatusUpdate", function (message) {
+        alert(message); // Display the notification
+        // Refresh the page or update the table to reflect the new status
+        location.reload();
+    });
+
+    connection.start().catch(function (err) {
+        return console.error(err.toString());
+    });
+</script>
