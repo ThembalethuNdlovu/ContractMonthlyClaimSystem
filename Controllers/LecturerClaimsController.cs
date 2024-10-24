@@ -61,5 +61,40 @@ namespace ContractMonthlyClaimSystem.Controllers
             }
             return View(claim);
         }
+        // GET: LecturerClaims/Review
+        public async Task<IActionResult> Review()
+        {
+            var pendingClaims = await _context.LecturerClaims
+                .Where(c => c.Status == ClaimStatus.Pending)
+                .ToListAsync();
+            return View(pendingClaims);
+        }
+
+        // POST: LecturerClaims/Approve
+        [HttpPost]
+        public async Task<IActionResult> Approve(int id)
+        {
+            var claim = await _context.LecturerClaims.FindAsync(id);
+            if (claim != null)
+            {
+                claim.Status = ClaimStatus.Approved;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Review));
+        }
+
+        // POST: LecturerClaims/Reject
+        [HttpPost]
+        public async Task<IActionResult> Reject(int id)
+        {
+            var claim = await _context.LecturerClaims.FindAsync(id);
+            if (claim != null)
+            {
+                claim.Status = ClaimStatus.Rejected;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Review));
+        }
+
     }
 }
