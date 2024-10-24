@@ -4,6 +4,7 @@ using ContractMonthlyClaimSystem.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace ContractMonthlyClaimSystem.Controllers
 {
@@ -40,6 +41,25 @@ namespace ContractMonthlyClaimSystem.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.LecturerClaims.ToListAsync());
+        }
+        public async Task<IActionResult> Create(LecturerClaim claim, IFormFile UploadedFile)
+        {
+            if (ModelState.IsValid)
+            {
+                if (UploadedFile != null && UploadedFile.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await UploadedFile.CopyToAsync(memoryStream);
+                        claim.UploadedFileContent = memoryStream.ToArray();
+                        claim.UploadedFileName = UploadedFile.FileName;
+                    }
+                }
+                _context.Add(claim);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(claim);
         }
     }
 }
