@@ -1,0 +1,21 @@
+﻿@model ContractMonthlyClaimSystem.Models.LecturerClaim
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="LecturerName"></label>
+        <input asp-for="LecturerName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="HoursWorked"></label>
+        <input asp-for="HoursWorked" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="HourlyRate"></label>
+        <input asp-for="HourlyRate" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="AdditionalNotes"></label>
+        <textarea asp-for="AdditionalNotes" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Claim</button>
+</form>
