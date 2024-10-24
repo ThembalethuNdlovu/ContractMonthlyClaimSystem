@@ -5,12 +5,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using ContractMonthlyClaimSystem.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace ContractMonthlyClaimSystem.Controllers
 {
     public class LecturerClaimsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHubContext<ClaimHub> _hubContext;
 
         public LecturerClaimsController(ApplicationDbContext context)
         {
